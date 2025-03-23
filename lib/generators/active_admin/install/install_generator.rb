@@ -45,6 +45,26 @@ module ActiveAdmin
           migration_template "migrations/create_active_admin_comments.rb.erb", "db/migrate/create_active_admin_comments.rb"
         end
       end
+
+      def copy_stylesheets
+        template "active_admin.css", "app/assets/stylesheets/active_admin.css"
+        # テンプレートファイル内の特殊なワイルドカードを置換
+        replace_gem_path_in_file("app/assets/stylesheets/active_admin.css")
+      end
+
+      private
+
+      def replace_gem_path_in_file(file_path)
+        return unless File.exist?(file_path)
+
+        # ActiveAdminのgemパスを取得
+        active_admin_gem_path = Gem.loaded_specs['activeadmin'].full_gem_path
+
+        # ファイル内の特殊なワイルドカードを置換
+        content = File.read(file_path)
+        replaced_content = content.gsub('#ACTIVE_ADMIN_GEM#', active_admin_gem_path)
+        File.write(file_path, replaced_content)
+      end
     end
   end
 end
