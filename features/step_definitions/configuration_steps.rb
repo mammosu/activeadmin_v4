@@ -5,13 +5,13 @@ module ActiveAdminReloading
     eval(config_content)
     ActiveSupport::Notifications.instrument ActiveAdmin::Application::AfterLoadEvent, { active_admin_application: ActiveAdmin.application }
     Rails.application.reload_routes!
-    ActiveAdmin.application.namespaces.each &:reset_menu!
+    ActiveAdmin.application.namespaces.each(&:reset_menu!)
   end
 end
 
 World(ActiveAdminReloading)
 
-Given /^a(?:n? (index|show))? configuration of:$/ do |action, config_content|
+Given(/^a(?:n? (index|show))? configuration of:$/) do |action, config_content|
   load_aa_config(config_content)
 
   case action

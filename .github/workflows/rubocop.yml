@@ -4,7 +4,7 @@ on:
   pull_request:
 
 env:
-  RUBY_VERSION: ${{ vars.RUBOCOP_RUBY_VERSION || '3.3' }}
+  RUBY_VERSION: ${{ vars.RUBOCOP_RUBY_VERSION || '3.4' }}
 
 jobs:
   rubocop:
@@ -14,7 +14,7 @@ jobs:
       BUNDLE_ONLY: ${{ vars.RUBOCOP_BUNDLE_ONLY || 'rubocop' }}
     steps:
       - uses: actions/checkout@v4
-      - uses: tj-actions/changed-files@v45
+      - uses: tj-actions/changed-files@v46
         id: changed-files
         with:
           files: |
