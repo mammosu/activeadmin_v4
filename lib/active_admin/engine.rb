@@ -41,20 +41,5 @@ module ActiveAdmin
     initializer "active_admin.deprecator" do |app|
       app.deprecators[:activeadmin] = ActiveAdmin.deprecator if app.respond_to?(:deprecators)
     end
-
-    initializer "active_admin.replace_gem_paths", after: "active_admin.setup" do
-      config.after_initialize do
-        # CSSファイル中のパスを置換
-        css_file = Rails.root.join("app/assets/stylesheets/active_admin.css")
-        if File.exist?(css_file)
-          content = File.read(css_file)
-          if content.include?('#ACTIVE_ADMIN_GEM#')
-            active_admin_gem_path = Gem.loaded_specs['activeadmin'].full_gem_path
-            replaced_content = content.gsub('#ACTIVE_ADMIN_GEM#', active_admin_gem_path)
-            File.write(css_file, replaced_content)
-          end
-        end
-      end
-    end
   end
 end
